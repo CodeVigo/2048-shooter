@@ -449,8 +449,20 @@ html, body {
 .booster:disabled { opacity: .45; cursor: not-allowed; }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 
-/* Small screens */
+/* Small screens — keep chrome compact so the board gets the room */
 @media (max-height: 680px) {
   .logo-2048 { font-size: 50px; }
   .score-value { font-size: 26px; }
+  #hud { padding: 4px 12px 1px; }
+  #topbar { padding: 0 0 1px; gap: 20px; }
+  #boosterBar { gap: 12px; padding: 4px 10px 8px; }
+  .booster { width: 46px; height: 46px; border-radius: 13px; }
+  .booster-emoji { font-size: 21px; }
+  .booster-cost { font-size: 10px; padding: 2px 7px; bottom: -8px; }
+}
+
+/* Very short / landscape phones */
+@media (max-height: 520px) {
+  #topbar { display: none; }
+  .booster { width: 42px; height: 42px; }
 }

@@ -9,6 +9,7 @@
   const COLS = C.COLS;
   const ROWS = C.ROWS;
   const TAU = Math.PI * 2;
+  const MERGE_STEP_MS = 320;   // single pace for every merge step (first + combos)
 
   const Main = {
     canvas: null,
@@ -211,7 +212,7 @@
           this.flying = null;
           Game.placeLanded(col);
           this.resolving = true;
-          this.mergeTimer = 120;                // brief beat before first merge
+          this.mergeTimer = MERGE_STEP_MS;      // same pace as every other merge step
         }
       }
 
@@ -221,7 +222,7 @@
         if (this.mergeTimer <= 0) {
           const ev = Game.stepMerge();
           if (ev) {
-            this.mergeTimer = 350;              // pause between combo cascade steps
+            this.mergeTimer = MERGE_STEP_MS;    // identical pace for combo cascade steps
           } else {
             this.resolving = false;
             Game.finishTurn();
