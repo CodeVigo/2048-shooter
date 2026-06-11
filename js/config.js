@@ -87,7 +87,7 @@
 
   const CONFIG = {
     COLS: 5,
-    ROWS: 10,            // grid rows (top-anchored). Reaching bottom = game over.
+    ROWS: 7,             // grid rows (top-anchored). Reaching bottom = game over.
     INFINITY_EXP,
     // How many shots between a new descending row being pushed in.
     ROW_INTERVAL_START: 7,

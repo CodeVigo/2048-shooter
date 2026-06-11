@@ -48,9 +48,9 @@
     /* ---------------- layout ---------------- */
     resize() {
       const wrap = document.getElementById("canvasWrap");
-      const availW = wrap.clientWidth - 8;
-      const availH = wrap.clientHeight - 8;
-      const shooterRows = 2;
+      const availW = wrap.clientWidth - 4;
+      const availH = wrap.clientHeight - 4;
+      const shooterRows = 1.15;
       const cell = Math.floor(
         Math.min(availW / COLS, availH / (ROWS + shooterRows))
       );
