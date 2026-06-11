@@ -160,14 +160,7 @@
       const x = Grid.cx(ev.c);
       const y = Grid.cy(ev.r);
       const cols = C.colors(ev.exp);
-      // pull particles in from each source cell toward the merged block
-      if (ev.fromCells) {
-        for (const fc of ev.fromCells) {
-          Effects.burst(Grid.cx(fc.c), Grid.cy(fc.r), cols[0], 5, 3);
-        }
-      }
-      Effects.burst(x, y, cols[0], 12 + ev.size * 4, 4 + ev.combo);
-      Effects.ring(x, y, cols[0], Grid.cell * (1 + ev.size * 0.2));
+      // keep it clean: a subtle tile pop + the floating number, no flashy burst/ring
       Effects.pop(ev.c, ev.r, Grid.cell);
       Effects.floatText(x, y - Grid.cell * 0.3, C.label(ev.exp), cols[0]);
     },

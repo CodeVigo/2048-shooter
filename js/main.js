@@ -203,7 +203,7 @@
       this.lastT = t;
 
       if (this.flying && !Game.paused) {
-        const speed = Math.max(12, this.cell * 0.7) * (dt / 16.67);
+        const speed = Math.max(16, this.cell * 0.95) * (dt / 16.67);
         this.flying.y -= speed;                 // straight up, no bounce
         if (this.flying.y <= this.flying.targetY) {
           this.flying.y = this.flying.targetY;
@@ -211,18 +211,17 @@
           this.flying = null;
           Game.placeLanded(col);
           this.resolving = true;
-          this.mergeTimer = 400;                // first merge after a clear beat
+          this.mergeTimer = 120;                // brief beat before first merge
         }
       }
 
-      // play the merge chain one tier at a time, slowly, so the numbers
-      // visibly add up — easy for a young child to follow and learn from.
+      // play the merge chain one tier at a time — readable but not draggy
       if (this.resolving && !Game.paused) {
         this.mergeTimer -= dt;
         if (this.mergeTimer <= 0) {
           const ev = Game.stepMerge();
           if (ev) {
-            this.mergeTimer = 650;              // slow pause between merge steps
+            this.mergeTimer = 350;              // pause between combo cascade steps
           } else {
             this.resolving = false;
             Game.finishTurn();
