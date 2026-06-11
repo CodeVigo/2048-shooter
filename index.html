@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f1f" />
+  <title>2048 Shooter: Number Match</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ===================== GAME STAGE ===================== -->
+    <div id="stage">
+      <!-- Top HUD -->
+      <header id="hud">
+        <div class="hud-left">
+          <button id="pauseBtn" class="icon-btn" aria-label="Pause">&#10073;&#10073;</button>
+        </div>
+        <div class="hud-center">
+          <div class="score-wrap">
+            <div class="score-label">SCORE</div>
+            <div id="scoreValue" class="score-value">0</div>
+          </div>
+          <div class="best-wrap">
+            <span class="best-icon">&#9733;</span>
+            <span id="bestValue">0</span>
+          </div>
+        </div>
+        <div class="hud-right">
+          <div class="coin-pill">
+            <span class="coin-icon">&#9679;</span>
+            <span id="coinValue">0</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- High block indicator -->
+      <div id="topbar">
+        <div class="topbar-item">
+          <span class="topbar-cap">HIGHEST</span>
+          <span id="highBlock" class="topbar-val">2</span>
+        </div>
+        <div class="topbar-item">
+          <span class="topbar-cap">COMBO</span>
+          <span id="comboVal" class="topbar-val">x0</span>
+        </div>
+      </div>
+
+      <!-- Canvas game board -->
+      <div id="canvasWrap">
+        <canvas id="game"></canvas>
+      </div>
+
+      <!-- Boosters -->
+      <footer id="boosterBar">
+        <button class="booster" data-booster="hammer" title="Hammer">
+          <span class="booster-emoji">&#128296;</span>
+          <span class="booster-cost"><span class="coin-icon">&#9679;</span><span data-cost="hammer">200</span></span>
+        </button>
+        <button class="booster" data-booster="bomb" title="Bomb">
+          <span class="booster-emoji">&#128163;</span>
+          <span class="booster-cost"><span class="coin-icon">&#9679;</span><span data-cost="bomb">350</span></span>
+        </button>
+        <button class="booster" data-booster="shuffle" title="Shuffle">
+          <span class="booster-emoji">&#128256;</span>
+          <span class="booster-cost"><span class="coin-icon">&#9679;</span><span data-cost="shuffle">150</span></span>
+        </button>
+        <button class="booster" data-booster="undo" title="Undo">
+          <span class="booster-emoji">&#8617;</span>
+          <span class="booster-cost"><span class="coin-icon">&#9679;</span><span data-cost="undo">100</span></span>
+        </button>
+      </footer>
+
+      <!-- Booster targeting hint -->
+      <div id="targetHint" class="hidden">Tap a block</div>
+    </div>
+
+    <!-- ===================== MAIN MENU ===================== -->
+    <div id="menuScreen" class="overlay">
+      <div class="menu-glow"></div>
+      <h1 class="logo"><span class="logo-2048">2048</span><span class="logo-sub">SHOOTER</span></h1>
+      <p class="tagline">Number Match</p>
+      <div class="menu-stats">
+        <div><span class="ms-cap">BEST</span><span id="menuBest">0</span></div>
+        <div><span class="ms-cap">COINS</span><span id="menuCoins">0</span></div>
+        <div><span class="ms-cap">TOP BLOCK</span><span id="menuHigh">2</span></div>
+      </div>
+      <button id="playBtn" class="btn btn-primary btn-big">PLAY</button>
+      <div class="menu-actions">
+        <button id="leaderboardBtn" class="btn btn-ghost">&#127942; Scores</button>
+        <button id="settingsBtn" class="btn btn-ghost">&#9881; Settings</button>
+        <button id="dailyBtn" class="btn btn-ghost">&#127873; Daily</button>
+      </div>
+    </div>
+
+    <!-- ===================== PAUSE ===================== -->
+    <div id="pauseScreen" class="overlay hidden">
+      <div class="panel">
+        <h2>Paused</h2>
+        <button id="resumeBtn" class="btn btn-primary">Resume</button>
+        <button id="pauseRestartBtn" class="btn btn-ghost">Restart</button>
+        <button id="pauseMenuBtn" class="btn btn-ghost">Main Menu</button>
+        <div class="toggle-row">
+          <span>Sound</span>
+          <button id="pauseSoundToggle" class="toggle on" data-key="sound"><span class="knob"></span></button>
+        </div>
+        <div class="toggle-row">
+          <span>Music</span>
+          <button id="pauseMusicToggle" class="toggle" data-key="music"><span class="knob"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== SETTINGS ===================== -->
+    <div id="settingsScreen" class="overlay hidden">
+      <div class="panel">
+        <h2>Settings</h2>
+        <div class="toggle-row">
+          <span>Sound Effects</span>
+          <button id="setSoundToggle" class="toggle on" data-key="sound"><span class="knob"></span></button>
+        </div>
+        <div class="toggle-row">
+          <span>Music</span>
+          <button id="setMusicToggle" class="toggle" data-key="music"><span class="knob"></span></button>
+        </div>
+        <div class="toggle-row">
+          <span>Screen Shake</span>
+          <button id="setShakeToggle" class="toggle on" data-key="shake"><span class="knob"></span></button>
+        </div>
+        <button id="resetBtn" class="btn btn-danger">Reset All Data</button>
+        <button id="settingsCloseBtn" class="btn btn-primary">Done</button>
+      </div>
+    </div>
+
+    <!-- ===================== GAME OVER ===================== -->
+    <div id="gameOverScreen" class="overlay hidden">
+      <div class="panel">
+        <h2 class="go-title">Game Over</h2>
+        <div class="go-score">
+          <div class="go-score-label">SCORE</div>
+          <div id="goScore" class="go-score-value">0</div>
+        </div>
+        <div class="go-row">
+          <div><span class="go-cap">BEST</span><span id="goBest">0</span></div>
+          <div><span class="go-cap">TOP BLOCK</span><span id="goHigh">2</span></div>
+          <div><span class="go-cap">+COINS</span><span id="goCoins">0</span></div>
+        </div>
+        <div id="newBestBadge" class="new-best hidden">NEW BEST!</div>
+        <button id="retryBtn" class="btn btn-primary btn-big">Play Again</button>
+        <button id="goMenuBtn" class="btn btn-ghost">Main Menu</button>
+      </div>
+    </div>
+
+    <!-- ===================== LEADERBOARD ===================== -->
+    <div id="leaderboardScreen" class="overlay hidden">
+      <div class="panel">
+        <h2>&#127942; Best Scores</h2>
+        <ol id="leaderboardList" class="leaderboard"></ol>
+        <button id="lbCloseBtn" class="btn btn-primary">Back</button>
+      </div>
+    </div>
+
+    <!-- ===================== DAILY REWARD ===================== -->
+    <div id="dailyScreen" class="overlay hidden">
+      <div class="panel">
+        <h2>&#127873; Daily Reward</h2>
+        <div id="dailyGrid" class="daily-grid"></div>
+        <button id="dailyClaimBtn" class="btn btn-primary btn-big">Claim</button>
+        <button id="dailyCloseBtn" class="btn btn-ghost">Close</button>
+      </div>
+    </div>
+
+    <!-- Toast for rewards / milestones -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <!-- YouTube Playables SDK: MUST load before any game code.
+       Runs as a no-op when served outside the YouTube environment. -->
+  <script src="https://www.youtube.com/game_api/v1"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/playables.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/boosters.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

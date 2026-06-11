@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2048 Shooter — Mobile Preview</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(900px 600px at 50% 0%, #1a1c26, #0a0b10 70%);
+      color: #eef2ff;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 24px 12px 40px;
+    }
+    h1 { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+    p { color: #8b90a6; font-size: 13px; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .controls button {
+      background: #1b2247; color: #eef2ff; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 8px 14px; font-weight: 700; cursor: pointer; font-size: 13px;
+    }
+    .controls button.active { background: #4f8cff; border-color: #4f8cff; }
+    /* phone bezel */
+    .phone {
+      position: relative;
+      padding: 14px;
+      border-radius: 44px;
+      background: linear-gradient(160deg, #20222c, #0c0d12);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.7), inset 0 0 0 2px rgba(255,255,255,0.05);
+    }
+    .phone::before {
+      content: "";
+      position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+      width: 120px; height: 26px; background: #0c0d12; border-radius: 0 0 16px 16px; z-index: 2;
+    }
+    .screen {
+      position: relative;
+      width: 390px; height: 844px;
+      border-radius: 32px;
+      overflow: hidden;
+      background: #0a0b10;
+    }
+    .screen iframe { width: 100%; height: 100%; border: 0; display: block; }
+  </style>
+</head>
+<body>
+  <h1>2048 Shooter — Mobile Preview</h1>
+  <p>This frames your real game (<code>index.html</code>) at common phone sizes.</p>
+  <div class="controls">
+    <button data-w="390" data-h="844" class="active">iPhone (390×844)</button>
+    <button data-w="360" data-h="800">Android (360×800)</button>
+    <button data-w="412" data-h="915">Pixel (412×915)</button>
+    <button data-w="320" data-h="690">Small (320×690)</button>
+  </div>
+  <div class="phone">
+    <div class="screen" id="screen">
+      <iframe id="frame" src="index.html"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const screen = document.getElementById("screen");
+    document.querySelectorAll(".controls button").forEach((b) => {
+      b.onclick = () => {
+        document.querySelectorAll(".controls button").forEach((x) => x.classList.remove("active"));
+        b.classList.add("active");
+        screen.style.width = b.dataset.w + "px";
+        screen.style.height = b.dataset.h + "px";
+        // reload so the canvas re-measures for the new size
+        document.getElementById("frame").src = "index.html";
+      };
+    });
+  </script>
+</body>
+</html>

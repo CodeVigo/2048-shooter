@@ -1,0 +1,11 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# dependencies (not used, but just in case)
+node_modules/
+
+# build artifacts / packaged bundles
+*.zip
